@@ -52,9 +52,22 @@ int main ()
 
     while((ch = getch()) != KEY_F(10))
     {
+        switch(ch){
+            case KEY_DOWN:
+                form_driver(my_form, REQ_NEXT_FIELD);
+                form_driver(my_form, REQ_END_LINE);
+                break;
+            case KEY_UP:
+                form_driver(my_form, REQ_PREV_FIELD);
+                form_driver(my_form, REQ_END_LINE);
+                break;
+            default:
+               form_driver(my_form, ch);
+               break;
+        }
+
         /*destroy_win(my_win);*/
         /*my_win = create_newwin(height, width, starty, startx);*/
-        form_driver(my_form, ch);
     }
 
     unpost_form(my_form);
