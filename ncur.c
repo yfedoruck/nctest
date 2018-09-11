@@ -23,8 +23,8 @@ int main ()
     
 
     /** colors */
-    init_pair(1, COLOR_WHITE, COLOR_BLUE);
-    init_pair(2, COLOR_WHITE, COLOR_BLUE);
+    init_pair(1, COLOR_BLACK, COLOR_CYAN);
+    init_pair(2, COLOR_BLACK, COLOR_CYAN);
 
     field[0] = new_field(1, 10, 4, 18, 0, 0);
     field[1] = new_field(1, 10, 6, 18, 0, 0);
@@ -42,8 +42,10 @@ int main ()
     post_form(my_form);
     refresh();
 
+    set_current_field(my_form, field[0]);
     mvprintw(4, 10, "Value 1:");
     mvprintw(6, 10, "Value 2:");
+    mvprintw(LINES - 2, 0, "Use UP, DOWN");
     refresh();
 
     /*printw("Press F10 to exit!!");*/
@@ -75,6 +77,7 @@ int main ()
     free_field(field[0]);
     free_field(field[1]);
 
+        destroy_win(my_win);
     endwin();
     
     return 0;
