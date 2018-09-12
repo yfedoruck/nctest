@@ -7,7 +7,7 @@ void destroy_win(WINDOW *local_win);
 int main ()
 {
     WINDOW *my_win;
-    FIELD *field[3];
+    FIELD *field[4];
     FORM *my_form;
     int height = 10;
     int width = 20;
@@ -23,12 +23,13 @@ int main ()
     
 
     /** colors */
-    init_pair(1, COLOR_BLACK, COLOR_CYAN);
-    init_pair(2, COLOR_BLACK, COLOR_CYAN);
+    init_pair(1, COLOR_WHITE, COLOR_CYAN);
+    init_pair(2, COLOR_WHITE, COLOR_CYAN);
 
     field[0] = new_field(1, 10, 4, 18, 0, 0);
     field[1] = new_field(1, 10, 6, 18, 0, 0);
-    field[2] = NULL;
+    field[2] = new_field(1, 10, 8, 18, 0, 0);
+    field[3] = NULL;
     
 
     set_field_fore(field[0], COLOR_PAIR(1));
@@ -37,6 +38,9 @@ int main ()
 
     set_field_back(field[1], A_UNDERLINE);
     field_opts_off(field[1], O_AUTOSKIP);
+
+    set_field_back(field[2], A_UNDERLINE);
+    field_opts_off(field[2], O_AUTOSKIP);
 
     my_form = new_form(field);
     post_form(my_form);
@@ -63,6 +67,9 @@ int main ()
                 form_driver(my_form, REQ_PREV_FIELD);
                 form_driver(my_form, REQ_END_LINE);
                 break;
+            case KEY_F(2) :
+                mvprintw(LINES -4, 0, "%s", field_buffer(field[0], 0));
+                break;
             default:
                form_driver(my_form, ch);
                break;
@@ -76,6 +83,7 @@ int main ()
     free_form(my_form);
     free_field(field[0]);
     free_field(field[1]);
+    free_field(field[2]);
 
         destroy_win(my_win);
     endwin();
