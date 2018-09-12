@@ -62,12 +62,16 @@ int main ()
             case KEY_DOWN:
                 form_driver(my_form, REQ_NEXT_FIELD);
                 form_driver(my_form, REQ_END_LINE);
+                mvprintw(LINES -4, 0, "%s", field_buffer(field[0], 0));
                 break;
             case KEY_UP:
                 form_driver(my_form, REQ_PREV_FIELD);
                 form_driver(my_form, REQ_END_LINE);
                 break;
-            case KEY_F(2) :
+             // press Enter key
+            case 10:
+                form_driver(my_form, REQ_NEXT_FIELD);
+                form_driver(my_form, REQ_END_LINE);
                 mvprintw(LINES -4, 0, "%s", field_buffer(field[0], 0));
                 break;
             default:
