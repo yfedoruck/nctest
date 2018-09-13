@@ -6,9 +6,11 @@
 #include <iostream>
 #include <curl/curl.h>
 #include <stdio.h>
+#include <string>
 
 
 using namespace rapidjson;
+using namespace std;
 
 WINDOW *create_newwin(int height, int width, int starty, int startx);
 void destroy_win(WINDOW *local_win);
@@ -61,9 +63,12 @@ int main ()
     if(curl){
         curl_easy_setopt(curl, CURLOPT_URL, "https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk");
         list = curl_slist_append(list, "Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr");
+        list = curl_slist_append(list, "'Content-Type: application/json");
         curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, FALSE);
         res = curl_easy_perform(curl);
         if(res != CURLE_OK){
             mvprintw(8, 12, "error!!!!");
@@ -108,6 +113,9 @@ int main ()
     mvprintw(LINES - 2, 0, "Use UP, DOWN");
     //mvprintw(12, 10, buffer.GetString());
     mvprintw(10, 10, readBuffer.c_str());
+    std::string str = "test";
+    mvprintw(10, 10, str.c_str());
+    mvprintw(12, 10, readBuffer.c_str());
     refresh();
 
     /*printw("Press F10 to exit!!");*/
