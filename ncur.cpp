@@ -76,8 +76,6 @@ int main ()
         curl_slist_free_all(list);
         curl_easy_cleanup(curl);
         //mvprintw(8, 10, readBuffer.c_str());
-        //mvprintw(12, 10, "rrtrtrrtrtrtrtr!!!");
-        //refresh();
     }
     
         mvprintw(16, 10, "rrtrtrrtrtrtrtr!!!");
@@ -112,10 +110,12 @@ int main ()
     mvprintw(6, 10, "Value 2:");
     mvprintw(LINES - 2, 0, "Use UP, DOWN");
     //mvprintw(12, 10, buffer.GetString());
-    mvprintw(10, 10, readBuffer.c_str());
-    std::string str = "test";
-    mvprintw(10, 10, str.c_str());
-    mvprintw(12, 10, readBuffer.c_str());
+    //mvprintw(10, 10, readBuffer.c_str());
+
+    //std::string str = "test";    //mvprintw(10, 10, str.c_str());
+    json = readBuffer.c_str();
+    d.Parse(json);
+    mvprintw(12, 10, d["expand"].GetString());
     refresh();
 
     /*printw("Press F10 to exit!!");*/
