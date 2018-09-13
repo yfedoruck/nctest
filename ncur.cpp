@@ -114,9 +114,18 @@ int main ()
     //Value::MemberIterator issues = d["issues"];
     const Value& issues = document["issues"];
 
-    
+    // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
-        mvprintw(12 + i, 10, issues[i]["key"].GetString());
+        const Value &issue = issues[i];
+        mvprintw(12 + i, 10, issue["key"].GetString());
+        mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
+
+        //for (SizeType j = 0; j < issue["fields"]["summary"].Size(); j++) {
+            //const Value &fields = issues[j]["fields"];
+            //mvprintw(12 + i, 10, fields[j].GetString());
+            //fields["summary"]
+        //}
+
     }
 
     //mvprintw(12, 10, std::to_string(issues.Size()));
