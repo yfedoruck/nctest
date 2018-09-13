@@ -1,2 +1,2 @@
-ncur: ncur.c
-	gcc -o ncur ncur.c -I. -lncurses -lform
+ncur: ncur.cpp
+	gcc -o ncur ncur.cpp -I. -lncurses -lform -lstdc++ -lcurl

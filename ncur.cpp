@@ -1,8 +1,24 @@
 #include <ncurses.h>
 #include <form.h>
+#include "rapidjson/document.h"
+#include "rapidjson/writer.h"
+#include "rapidjson/stringbuffer.h"
+#include <iostream>
+#include <curl/curl.h>
+#include <stdio.h>
+
+
+using namespace rapidjson;
 
 WINDOW *create_newwin(int height, int width, int starty, int startx);
 void destroy_win(WINDOW *local_win);
+
+
+static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
+{
+    ((std::string*)userp)->append((char*)contents, size * nmemb);
+    return size * nmemb;
+}
 
 int main ()
 {
@@ -21,6 +37,46 @@ int main ()
     noecho();
     keypad(stdscr, TRUE);
     
+
+    const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
+    Document d;
+    d.Parse(json);
+    
+    StringBuffer buffer;
+    Writer <StringBuffer> writer(buffer);
+    d.Accept(writer);
+    mvprintw(8, 10, "Value3");
+    //mvprintw(8, 10, buffer.GetString());
+    //mvprintw(12, 10, buffer.GetString());
+    refresh();
+    
+
+    // curl query
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+
+    curl = curl_easy_init();
+    struct curl_slist *list = NULL;
+    if(curl){
+        curl_easy_setopt(curl, CURLOPT_URL, "https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk");
+        list = curl_slist_append(list, "Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        res = curl_easy_perform(curl);
+        if(res != CURLE_OK){
+            mvprintw(8, 12, "error!!!!");
+        }
+        curl_slist_free_all(list);
+        curl_easy_cleanup(curl);
+        //mvprintw(8, 10, readBuffer.c_str());
+        //mvprintw(12, 10, "rrtrtrrtrtrtrtr!!!");
+        //refresh();
+    }
+    
+        mvprintw(16, 10, "rrtrtrrtrtrtrtr!!!");
+        refresh();
 
     /** colors */
     init_pair(1, COLOR_WHITE, COLOR_CYAN);
@@ -50,6 +106,8 @@ int main ()
     mvprintw(4, 10, "Value 1:");
     mvprintw(6, 10, "Value 2:");
     mvprintw(LINES - 2, 0, "Use UP, DOWN");
+    //mvprintw(12, 10, buffer.GetString());
+    mvprintw(10, 10, readBuffer.c_str());
     refresh();
 
     /*printw("Press F10 to exit!!");*/
@@ -89,12 +147,11 @@ int main ()
     free_field(field[1]);
     free_field(field[2]);
 
-        destroy_win(my_win);
+    destroy_win(my_win);
     endwin();
     
     return 0;
 }
-
 WINDOW *create_newwin(int height, int width, int starty, int startx)
 {
     WINDOW *local_win;
