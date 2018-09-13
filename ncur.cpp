@@ -41,12 +41,12 @@ int main ()
     
 
     const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-    Document d;
-    d.Parse(json);
+    Document document;
+    document.Parse(json);
     
     StringBuffer buffer;
     Writer <StringBuffer> writer(buffer);
-    d.Accept(writer);
+    document.Accept(writer);
     mvprintw(8, 10, "Value3");
     //mvprintw(8, 10, buffer.GetString());
     //mvprintw(12, 10, buffer.GetString());
@@ -77,9 +77,6 @@ int main ()
         curl_easy_cleanup(curl);
         //mvprintw(8, 10, readBuffer.c_str());
     }
-    
-        mvprintw(16, 10, "rrtrtrrtrtrtrtr!!!");
-        refresh();
 
     /** colors */
     init_pair(1, COLOR_WHITE, COLOR_CYAN);
@@ -89,7 +86,6 @@ int main ()
     field[1] = new_field(1, 10, 6, 18, 0, 0);
     field[2] = new_field(1, 10, 8, 18, 0, 0);
     field[3] = NULL;
-    
 
     set_field_fore(field[0], COLOR_PAIR(1));
     set_field_back(field[0], COLOR_PAIR(2));
@@ -114,8 +110,19 @@ int main ()
 
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     json = readBuffer.c_str();
-    d.Parse(json);
-    mvprintw(12, 10, d["expand"].GetString());
+    document.Parse(json);
+    //Value::MemberIterator issues = d["issues"];
+    const Value& issues = document["issues"];
+
+    
+    for (SizeType i = 0; i < issues.Size(); i++) {
+        mvprintw(12 + i, 10, issues[i]["key"].GetString());
+    }
+
+    //mvprintw(12, 10, std::to_string(issues.Size()));
+    //mvprintw(12, 10, issues.GetString());
+
+    //mvprintw(12, 10, d["expand"].GetString());
     refresh();
 
     /*printw("Press F10 to exit!!");*/
