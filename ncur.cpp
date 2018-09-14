@@ -9,6 +9,8 @@
 #include <string>
 
 
+//jira board backlog -b 183 -a y.fedoruk
+//curl -X GET  -k 'https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk'   -H 'Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr'   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'
 using namespace rapidjson;
 using namespace std;
 
