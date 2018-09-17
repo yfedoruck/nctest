@@ -26,15 +26,17 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
 
 int main ()
 {
+    WINDOW *my_win;
+    FIELD *field[4];
+    FORM *my_form;
+
     initscr();
     start_color();
     cbreak();
     noecho();
     keypad(stdscr, TRUE);
 
-    WINDOW *my_win;
-    FIELD *field[4];
-    FORM *my_form;
+
     int height = 10;
     int width = 20;
     int starty = (LINES - height)/2;
@@ -164,6 +166,7 @@ int main ()
                break;
         }
 
+        refresh();
         destroy_win(my_win);
         my_win = create_newwin(height, width, starty, startx);
     }
