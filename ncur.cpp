@@ -26,6 +26,12 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
 
 int main ()
 {
+    initscr();
+    start_color();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+
     WINDOW *my_win;
     FIELD *field[4];
     FORM *my_form;
@@ -35,11 +41,6 @@ int main ()
     int startx = (COLS - width)/2;
     int ch;
 
-    initscr();
-    start_color();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
     
 
     const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
@@ -163,8 +164,8 @@ int main ()
                break;
         }
 
-        /*destroy_win(my_win);*/
-        /*my_win = create_newwin(height, width, starty, startx);*/
+        destroy_win(my_win);
+        my_win = create_newwin(height, width, starty, startx);
     }
 
     unpost_form(my_form);
