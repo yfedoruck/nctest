@@ -189,7 +189,6 @@ void panels()
 
 void cell(const char* str, int y, int x)
 {
-    int count = 1;
     WINDOW *my_cell;
     PANEL *my_panel;
     int lines = 3,
