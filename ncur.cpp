@@ -19,6 +19,8 @@ void destroy_win(WINDOW *local_win);
 
 std::string request();
 
+Document parse(const char* str);
+
 void forms();
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -48,20 +50,19 @@ int main ()
     int startx = 0;
     int ch;
 
-    const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
-    Document document;
-    document.Parse(json);
-    
-    StringBuffer buffer;
-    Writer <StringBuffer> writer(buffer);
-    document.Accept(writer);
+    std::string readBuffer = request();
+    const char* json = readBuffer.c_str();
+    Document document = parse(json);
+    const Value& issues = document["issues"];
+
     mvprintw(8, 10, "Value3");
+    //StringBuffer buffer;
+    //Writer <StringBuffer> writer(buffer);
+    //document.Accept(writer);
     //mvprintw(8, 10, buffer.GetString());
     //mvprintw(12, 10, buffer.GetString());
     refresh();
     
-    std::string readBuffer;
-    readBuffer = request();
 
     /** colors */
     init_pair(1, COLOR_WHITE, COLOR_CYAN);
@@ -94,10 +95,7 @@ int main ()
     //mvprintw(10, 10, readBuffer.c_str());
 
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
-    json = readBuffer.c_str();
-    document.Parse(json);
     //Value::MemberIterator issues = d["issues"];
-    const Value& issues = document["issues"];
 
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
@@ -180,6 +178,15 @@ void destroy_win(WINDOW *local_win)
     delwin(local_win);
 }
 
+Document parse(const char* str)
+{
+    //const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
+    const char* json = str;
+    Document document;
+    document.Parse(json);
+
+    return document;
+}
 std::string request()
 {
     // curl query
