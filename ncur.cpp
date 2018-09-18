@@ -39,7 +39,6 @@ int main ()
     noecho();
     keypad(stdscr, TRUE);
 
-
     int height = 10;
     int width = 40;
     //int starty = (LINES - height);
@@ -53,7 +52,6 @@ int main ()
     Document document = parse(json);
     const Value& issues = document["issues"];
 
-    refresh();
 
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
@@ -72,13 +70,6 @@ int main ()
 
     }
 
-    //mvprintw(12, 10, std::to_string(issues.Size()));
-    //mvprintw(12, 10, issues.GetString());
-
-    //mvprintw(12, 10, d["expand"].GetString());
-    refresh();
-
-    /*printw("Press F10 to exit!!");*/
     refresh();
     my_win = create_newwin(height, width, starty, startx);
 
