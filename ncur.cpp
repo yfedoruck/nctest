@@ -22,6 +22,7 @@ void destroy_win(WINDOW *local_win);
 std::string request();
 Document parse(const char* str);
 void panels();
+void cell();
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -52,9 +53,8 @@ int main ()
     Document document = parse(json);
     const Value& issues = document["issues"];
 
-
-
-    panels();
+    //panels();
+    cell();
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
@@ -179,6 +179,27 @@ void panels()
     my_panels[0] = new_panel(my_wins[0]);
     //my_panels[1] = new_panel(my_wins[1]);
     //my_panels[2] = new_panel(my_wins[2]);
+
+    update_panels();
+    doupdate();
+}
+
+void cell()
+{
+    int count = 1;
+    WINDOW *my_cell;
+    PANEL *my_panel;
+    int lines = 10,
+        cols = 40,
+        y = 2,
+        x = 4,
+        i;
+    my_cell = newwin(lines, cols, y, x);
+
+    mvwprintw(my_cell, y, x, "%s", "hi there!");
+    wrefresh(my_cell);
+    box(my_cell, 0, 0);
+    my_panel = new_panel(my_cell);
 
     update_panels();
     doupdate();
