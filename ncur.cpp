@@ -56,7 +56,7 @@ int main ()
 
 
 
-    //panels();
+    panels();
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
