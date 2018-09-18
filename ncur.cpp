@@ -55,14 +55,7 @@ int main ()
     Document document = parse(json);
     const Value& issues = document["issues"];
 
-    mvprintw(8, 10, "Value3");
-    //StringBuffer buffer;
-    //Writer <StringBuffer> writer(buffer);
-    //document.Accept(writer);
-    //mvprintw(8, 10, buffer.GetString());
-    //mvprintw(12, 10, buffer.GetString());
     refresh();
-    
 
     /** colors */
     init_pair(1, COLOR_WHITE, COLOR_CYAN);
@@ -90,6 +83,7 @@ int main ()
     set_current_field(my_form, field[0]);
     mvprintw(4, 10, "Value 1:");
     mvprintw(6, 10, "Value 2:");
+    mvprintw(8, 10, "Value3");
     mvprintw(LINES - 2, 0, "Use UP, DOWN");
     //mvprintw(12, 10, buffer.GetString());
     //mvprintw(10, 10, readBuffer.c_str());
@@ -181,6 +175,12 @@ void destroy_win(WINDOW *local_win)
 Document parse(const char* str)
 {
     //const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
+    //StringBuffer buffer;
+    //Writer <StringBuffer> writer(buffer);
+    //document.Accept(writer);
+    //mvprintw(8, 10, buffer.GetString());
+    //mvprintw(12, 10, buffer.GetString());
+
     const char* json = str;
     Document document;
     document.Parse(json);
