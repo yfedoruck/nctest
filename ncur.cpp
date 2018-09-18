@@ -1,3 +1,4 @@
+#include <locale.h>
 #include <ncurses.h>
 #include <form.h>
 #include <panel.h>
@@ -8,7 +9,6 @@
 #include <curl/curl.h>
 #include <stdio.h>
 #include <string>
-
 
 //jira board backlog -b 183 -a y.fedoruk
 //curl -X GET  -k 'https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk'   -H 'Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr'   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'
@@ -32,6 +32,7 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
 
 int main ()
 {
+    setlocale(LC_ALL, "");
     WINDOW *my_win;
 
     initscr();
@@ -64,7 +65,7 @@ int main ()
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
         cell(issue["key"].GetString(), 3, 15, 1 + i * 3, 2);
-        cell(issue["fields"]["summary"].GetString(), 3, 30, 1 + i * 3, 20);
+        cell(issue["fields"]["summary"].GetString(), 3, 30, 1+i*3, 20);
         //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
         //mvprintw(12 + i, 10, issue["key"].GetString());
