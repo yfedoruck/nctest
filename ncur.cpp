@@ -22,7 +22,7 @@ void destroy_win(WINDOW *local_win);
 std::string request();
 Document parse(const char* str);
 void panels();
-void cell(const char* s);
+void cell(const char* s, int y, int x);
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -54,8 +54,8 @@ int main ()
     const Value& issues = document["issues"];
 
     //cell("asd!!!");
-    const Value &issue = issues[0];
-    cell(issue["key"].GetString());
+    //const Value &issue = issues[0];
+    //cell(issue["key"].GetString());
 
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
@@ -64,6 +64,7 @@ int main ()
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
         mvprintw(12 + i, 10, issue["key"].GetString());
+        cell(issue["key"].GetString(), 1, 2);
         mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
         //for (SizeType j = 0; j < issue["fields"]["summary"].Size(); j++) {
@@ -186,19 +187,19 @@ void panels()
     doupdate();
 }
 
-void cell(const char* str)
+void cell(const char* str, int y, int x)
 {
     int count = 1;
     WINDOW *my_cell;
     PANEL *my_panel;
-    int lines = 10,
-        cols = 40,
-        y = 2,
-        x = 4,
+    int lines = 3,
+        cols = 15,
+        y0 = 1,
+        x0 = 2,
         i;
-    my_cell = newwin(lines, cols, y, x);
+    my_cell = newwin(lines, cols, y0, x0);
 
-    mvwprintw(my_cell, y, x, str);
+    mvwprintw(my_cell, y0, x0, str);
     wrefresh(my_cell);
     box(my_cell, 0, 0);
     my_panel = new_panel(my_cell);
