@@ -55,7 +55,7 @@ int main ()
 
     //cell("asd!!!");
     //const Value &issue = issues[0];
-    //cell(issue["key"].GetString());
+    //cell(issue["key"].GetString(), 1, 2);
 
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
@@ -63,10 +63,10 @@ int main ()
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
-        mvprintw(12 + i, 10, issue["key"].GetString());
-        cell(issue["key"].GetString(), 1, 2);
-        mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
+        cell(issue["key"].GetString(), 1 + i * 3, 2);
+        //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
+        //mvprintw(12 + i, 10, issue["key"].GetString());
         //for (SizeType j = 0; j < issue["fields"]["summary"].Size(); j++) {
             //const Value &fields = issues[j]["fields"];
             //mvprintw(12 + i, 10, fields[j].GetString());
@@ -193,12 +193,12 @@ void cell(const char* str, int y, int x)
     PANEL *my_panel;
     int lines = 3,
         cols = 15,
-        y0 = 1,
-        x0 = 2,
+        yRel = 1,
+        xRel = 2,
         i;
-    my_cell = newwin(lines, cols, y0, x0);
+    my_cell = newwin(lines, cols, y, x);
 
-    mvwprintw(my_cell, y0, x0, str);
+    mvwprintw(my_cell, yRel, xRel, str);
     wrefresh(my_cell);
     box(my_cell, 0, 0);
     my_panel = new_panel(my_cell);
