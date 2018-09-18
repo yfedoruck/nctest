@@ -22,7 +22,7 @@ std::string request();
 
 Document parse(const char* str);
 
-void forms();
+//void forms();
 void panels();
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -75,22 +75,20 @@ int main ()
     }
 
     refresh();
-    my_win = create_newwin(height, width, starty, startx);
-    //mvprintw(4, 10, "Value 1:");
-    //mvprintw(starty, startx, "Value 1:");
-    mvwprintw(my_win, starty + 1, startx + 2, "hi there!");
-    wrefresh(my_win);
+    //my_win = create_newwin(height, width, starty, startx);
+    //mvwprintw(my_win, starty + 1, startx + 2, "hi there!");
+    //wrefresh(my_win);
 
     while((ch = getch()) != KEY_F(10))
     {
         refresh();
-        destroy_win(my_win);
-        my_win = create_newwin(height, width, starty, startx);
+        //destroy_win(my_win);
+        //my_win = create_newwin(height, width, starty, startx);
     }
 
 
 
-    destroy_win(my_win);
+    //destroy_win(my_win);
     endwin();
     
     return 0;
@@ -169,7 +167,7 @@ void panels()
         i;
     my_wins[0] = newwin(lines, cols, y, x);
 
-    mvwprintw(my_wins[0], 0, 0, "%s", "hi there!");
+    mvwprintw(my_wins[0], y, x, "%s", "hi there!");
     wrefresh(my_wins[0]);
 
     //my_wins[1] = newwin(lines, cols, y + 1, x + 5);
@@ -188,75 +186,3 @@ void panels()
     doupdate();
 }
 
-void forms()
-{
-    FIELD *field[4];
-    FORM *my_form;
-    int ch;
-
-    /** colors */
-    init_pair(1, COLOR_WHITE, COLOR_CYAN);
-    init_pair(2, COLOR_WHITE, COLOR_CYAN);
-
-    field[0] = new_field(1, 10, 4, 18, 0, 0);
-    field[1] = new_field(1, 10, 6, 18, 0, 0);
-    field[2] = new_field(1, 10, 8, 18, 0, 0);
-    field[3] = NULL;
-
-    set_field_fore(field[0], COLOR_PAIR(1));
-    set_field_back(field[0], COLOR_PAIR(2));
-    field_opts_off(field[0], O_AUTOSKIP);
-
-    set_field_back(field[1], A_UNDERLINE);
-    field_opts_off(field[1], O_AUTOSKIP);
-
-    set_field_back(field[2], A_UNDERLINE);
-    field_opts_off(field[2], O_AUTOSKIP);
-
-    my_form = new_form(field);
-    post_form(my_form);
-    refresh();
-
-    set_current_field(my_form, field[0]);
-    mvprintw(4, 10, "Value 1:");
-    mvprintw(6, 10, "Value 2:");
-    mvprintw(8, 10, "Value3");
-    mvprintw(LINES - 2, 0, "Use UP, DOWN");
-    //mvprintw(12, 10, buffer.GetString());
-    //mvprintw(10, 10, readBuffer.c_str());
-
-    //std::string str = "test";    //mvprintw(10, 10, str.c_str());
-    //Value::MemberIterator issues = d["issues"];
-
-    while((ch = getch()) != KEY_F(10))
-    {
-        switch(ch){
-            case KEY_DOWN:
-                form_driver(my_form, REQ_NEXT_FIELD);
-                form_driver(my_form, REQ_END_LINE);
-                mvprintw(LINES -4, 0, "%s", field_buffer(field[0], 0));
-                break;
-            case KEY_UP:
-                form_driver(my_form, REQ_PREV_FIELD);
-                form_driver(my_form, REQ_END_LINE);
-                break;
-             // press Enter key
-            case 10:
-                form_driver(my_form, REQ_NEXT_FIELD);
-                form_driver(my_form, REQ_END_LINE);
-                mvprintw(LINES -4, 0, "%s", field_buffer(field[0], 0));
-                break;
-            default:
-               form_driver(my_form, ch);
-               break;
-        }
-
-        refresh();
-    }
-
-    unpost_form(my_form);
-    free_form(my_form);
-    free_field(field[0]);
-    free_field(field[1]);
-    free_field(field[2]);
-}
