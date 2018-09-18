@@ -22,7 +22,7 @@ void destroy_win(WINDOW *local_win);
 std::string request();
 Document parse(const char* str);
 void panels();
-void cell(const char* s, int y, int x);
+void cell(const char* s, int l, int c, int y, int x);
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -63,7 +63,8 @@ int main ()
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
-        cell(issue["key"].GetString(), 1 + i * 3, 2);
+        cell(issue["key"].GetString(), 3, 15, 1 + i * 3, 2);
+        cell(issue["fields"]["summary"].GetString(), 3, 30, 1 + i * 3, 20);
         //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
         //mvprintw(12 + i, 10, issue["key"].GetString());
@@ -187,12 +188,12 @@ void panels()
     doupdate();
 }
 
-void cell(const char* str, int y, int x)
+void cell(const char* str, int l, int c, int y, int x)
 {
     WINDOW *my_cell;
     PANEL *my_panel;
-    int lines = 3,
-        cols = 15,
+    int lines = l,
+        cols = c,
         yRel = 1,
         xRel = 2,
         i;
