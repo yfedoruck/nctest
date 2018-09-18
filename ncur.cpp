@@ -17,6 +17,9 @@ using namespace std;
 WINDOW *create_newwin(int height, int width, int starty, int startx);
 void destroy_win(WINDOW *local_win);
 
+std::string request();
+
+void forms();
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -38,12 +41,12 @@ int main ()
 
 
     int height = 10;
-    int width = 20;
-    int starty = (LINES - height)/2;
-    int startx = (COLS - width)/2;
+    int width = 40;
+    //int starty = (LINES - height);
+    //int startx = (COLS - width)/2;
+    int starty = 0; //(LINES - height);
+    int startx = 0;
     int ch;
-
-    
 
     const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
     Document document;
@@ -57,31 +60,8 @@ int main ()
     //mvprintw(12, 10, buffer.GetString());
     refresh();
     
-
-    // curl query
-    CURL *curl;
-    CURLcode res;
     std::string readBuffer;
-
-    curl = curl_easy_init();
-    struct curl_slist *list = NULL;
-    if(curl){
-        curl_easy_setopt(curl, CURLOPT_URL, "https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk");
-        list = curl_slist_append(list, "Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr");
-        list = curl_slist_append(list, "Content-Type: application/json");
-        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        res = curl_easy_perform(curl);
-        if(res != CURLE_OK){
-            mvprintw(8, 12, "error!!!!");
-        }
-        curl_slist_free_all(list);
-        curl_easy_cleanup(curl);
-        //mvprintw(8, 10, readBuffer.c_str());
-    }
+    readBuffer = request();
 
     /** colors */
     init_pair(1, COLOR_WHITE, COLOR_CYAN);
@@ -187,7 +167,7 @@ WINDOW *create_newwin(int height, int width, int starty, int startx)
     WINDOW *local_win;
     local_win = newwin(height, width, starty, startx);
     box(local_win, 0, 0);
-    wborder(local_win, '@', '@', '=', '=', '+', '+', '+', '+');
+    wborder(local_win, '|', '|', '-', '-', '+', '+', '+', '+');
     wrefresh(local_win);
 
     return local_win;
@@ -198,4 +178,38 @@ void destroy_win(WINDOW *local_win)
     wborder(local_win, ' ',' ',' ',' ',' ',' ', ' ', ' ');
     wrefresh(local_win);
     delwin(local_win);
+}
+
+std::string request()
+{
+    // curl query
+    CURL *curl;
+    CURLcode res;
+    std::string readBuffer;
+
+    curl = curl_easy_init();
+    struct curl_slist *list = NULL;
+    if(curl){
+        curl_easy_setopt(curl, CURLOPT_URL, "https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk");
+        list = curl_slist_append(list, "Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr");
+        list = curl_slist_append(list, "Content-Type: application/json");
+        curl_easy_setopt(curl, CURLOPT_HTTPHEADER, list);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        res = curl_easy_perform(curl);
+        if(res != CURLE_OK){
+            mvprintw(8, 12, "error!!!!");
+        }
+        curl_slist_free_all(list);
+        curl_easy_cleanup(curl);
+        //mvprintw(8, 10, readBuffer.c_str());
+    }
+    return readBuffer;
+}
+
+void forms()
+{
+
 }
