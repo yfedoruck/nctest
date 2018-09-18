@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <form.h>
+#include <panel.h>
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
@@ -22,6 +23,7 @@ std::string request();
 Document parse(const char* str);
 
 void forms();
+void panels();
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -53,6 +55,7 @@ int main ()
     const Value& issues = document["issues"];
 
 
+    panels();
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
@@ -79,6 +82,8 @@ int main ()
         destroy_win(my_win);
         my_win = create_newwin(height, width, starty, startx);
     }
+
+
 
     destroy_win(my_win);
     endwin();
@@ -145,6 +150,31 @@ std::string request()
         //mvprintw(8, 10, readBuffer.c_str());
     }
     return readBuffer;
+}
+
+void panels()
+{
+    WINDOW *my_wins[3];
+    PANEL *my_panels[3];
+    int lines = 10,
+        cols = 40,
+        y = 2,
+        x = 4,
+        i;
+    my_wins[0] = newwin(lines, cols, y, x);
+    my_wins[1] = newwin(lines, cols, y + 1, x + 5);
+    my_wins[2] = newwin(lines, cols, y + 2, x + 10);
+
+    for(i = 0; i < 3; ++i){
+        box(my_wins[i], 0, 0);
+    }
+
+    my_panels[0] = new_panel(my_wins[0]);
+    my_panels[1] = new_panel(my_wins[1]);
+    my_panels[2] = new_panel(my_wins[2]);
+
+    update_panels();
+    doupdate();
 }
 
 void forms()
