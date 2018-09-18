@@ -15,14 +15,12 @@
 using namespace rapidjson;
 using namespace std;
 
+//void forms();
+
 WINDOW *create_newwin(int height, int width, int starty, int startx);
 void destroy_win(WINDOW *local_win);
-
 std::string request();
-
 Document parse(const char* str);
-
-//void forms();
 void panels();
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
