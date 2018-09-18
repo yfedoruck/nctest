@@ -53,7 +53,10 @@ int main ()
     Document document = parse(json);
     const Value& issues = document["issues"];
 
-    cell("asd!!!");
+    //cell("asd!!!");
+    const Value &issue = issues[0];
+    cell(issue["key"].GetString());
+
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
