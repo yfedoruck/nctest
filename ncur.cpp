@@ -55,7 +55,8 @@ int main ()
     const Value& issues = document["issues"];
 
 
-    panels();
+
+    //panels();
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
@@ -75,6 +76,10 @@ int main ()
 
     refresh();
     my_win = create_newwin(height, width, starty, startx);
+    //mvprintw(4, 10, "Value 1:");
+    //mvprintw(starty, startx, "Value 1:");
+    mvwprintw(my_win, starty + 1, startx + 2, "hi there!");
+    wrefresh(my_win);
 
     while((ch = getch()) != KEY_F(10))
     {
@@ -154,24 +159,30 @@ std::string request()
 
 void panels()
 {
-    WINDOW *my_wins[3];
-    PANEL *my_panels[3];
+    int count = 1;
+    WINDOW *my_wins[count];
+    PANEL *my_panels[count];
     int lines = 10,
         cols = 40,
         y = 2,
         x = 4,
         i;
     my_wins[0] = newwin(lines, cols, y, x);
-    my_wins[1] = newwin(lines, cols, y + 1, x + 5);
-    my_wins[2] = newwin(lines, cols, y + 2, x + 10);
 
-    for(i = 0; i < 3; ++i){
-        box(my_wins[i], 0, 0);
-    }
+    mvwprintw(my_wins[0], 0, 0, "%s", "hi there!");
+    wrefresh(my_wins[0]);
+
+    //my_wins[1] = newwin(lines, cols, y + 1, x + 5);
+    //my_wins[2] = newwin(lines, cols, y + 2, x + 10);
+
+        box(my_wins[0], 0, 0);
+    //for(i = 0; i < 3; ++i){
+        //box(my_wins[i], 0, 0);
+    //}
 
     my_panels[0] = new_panel(my_wins[0]);
-    my_panels[1] = new_panel(my_wins[1]);
-    my_panels[2] = new_panel(my_wins[2]);
+    //my_panels[1] = new_panel(my_wins[1]);
+    //my_panels[2] = new_panel(my_wins[2]);
 
     update_panels();
     doupdate();
