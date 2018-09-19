@@ -77,7 +77,7 @@ int main ()
             //fields["summary"]
         //}
     }
-    
+
     set_panel_userptr(key_panels[0], key_panels[1]);
     set_panel_userptr(key_panels[1], key_panels[2]);
     set_panel_userptr(key_panels[2], key_panels[0]);
@@ -94,7 +94,7 @@ int main ()
     while((ch = getch()) != KEY_F(10))
     {
         switch(ch){
-            case 9 : 
+            case 9 :
                 top = (PANEL*)panel_userptr(top);
                 top_panel(top);
                 topwin = panel_window(top);
