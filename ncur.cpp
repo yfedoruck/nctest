@@ -67,7 +67,9 @@ int main ()
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
         key_panels[i] = cell(issue["key"].GetString(), 3, 15, i*3, 2);
+                    attron(COLOR_PAIR(1));
         cell(issue["fields"]["summary"].GetString(), 3, 181, i*3, 20);
+                    attroff(COLOR_PAIR(1));
         //set_panel_userptr(key_panel, summary_panel);
 
         //mvprintw(12 + i, 10, issue["key"].GetString());
@@ -91,6 +93,7 @@ int main ()
 
     PANEL* top = key_panels[0];
     WINDOW* topwin;
+    int topch;
     while((ch = getch()) != KEY_F(10))
     {
         switch(ch){
@@ -99,20 +102,22 @@ int main ()
                 top_panel(top);
                 topwin = panel_window(top);
                     attron(COLOR_PAIR(1));
-                    mvwprintw(topwin, 1, 2, "WWW");
-                    wrefresh(topwin);
+                    mvwprintw(topwin, 1, 2, "WWW11");
                     attroff(COLOR_PAIR(1));
+                    topch = wgetch(topwin);
+                    if(topch == 10){
+                        mvwprintw(topwin, 1, 2, "OOOO");
+                    }
+                    //while(topch!= KEY_F(2)){
+                    //}
                 break;
         }
         update_panels();
         doupdate();
     }
 
-
-
-    //destroy_win(my_win);
     endwin();
-    
+
     return 0;
 }
 WINDOW *create_newwin(int height, int width, int starty, int startx)
