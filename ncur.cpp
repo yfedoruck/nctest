@@ -50,7 +50,8 @@ int main ()
     int startx = 0;
     int ch;
 
-    init_pair(4, COLOR_CYAN, COLOR_BLACK);
+    init_pair(1, COLOR_RED, COLOR_YELLOW);
+    init_pair(4, COLOR_BLUE, COLOR_GREEN);
 
     std::string readBuffer = request();
     const char* json = readBuffer.c_str();
@@ -81,9 +82,6 @@ int main ()
     set_panel_userptr(key_panels[1], key_panels[2]);
     set_panel_userptr(key_panels[2], key_panels[0]);
 
-    attron(COLOR_PAIR(4));
-    //mvprintw(LINES − 2, 0, "Use tab to browse through the windows (F1 to Exit)");
-    attroff(COLOR_PAIR(4));
         update_panels();
         doupdate();
     refresh();
@@ -100,15 +98,14 @@ int main ()
                 top = (PANEL*)panel_userptr(top);
                 top_panel(top);
                 topwin = panel_window(top);
+                    attron(COLOR_PAIR(1));
                     mvwprintw(topwin, 1, 2, "WWW");
                     wrefresh(topwin);
+                    attroff(COLOR_PAIR(1));
                 break;
         }
         update_panels();
         doupdate();
-        refresh();
-        //destroy_win(my_win);
-        //my_win = create_newwin(height, width, starty, startx);
     }
 
 
