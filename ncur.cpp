@@ -1,6 +1,6 @@
 #include <locale.h>
-#include "ncursesw/curses.h"
-//#include <ncurses.h>
+//#include "ncursesw/curses.h"
+#include <ncurses.h>
 #include <form.h>
 #include <panel.h>
 #include "rapidjson/document.h"
@@ -62,7 +62,7 @@ int main ()
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
         cell(issue["key"].GetString(), 3, 15, i*3, 2);
-        cell(issue["fields"]["summary"].GetString(), 3, 180, i*3, 20);
+        cell(issue["fields"]["summary"].GetString(), 3, 181, i*3, 20);
         //cell(issue["key"].GetString(), 3, 30, 1+i*3, 20);
         //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
