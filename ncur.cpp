@@ -23,7 +23,7 @@ void destroy_win(WINDOW *local_win);
 std::string request();
 Document parse(const char* str);
 void panels();
-void cell(const char* s, int l, int c, int y, int x);
+PANEL* cell(const char* s, int l, int c, int y, int x);
 
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -50,6 +50,8 @@ int main ()
     int startx = 0;
     int ch;
 
+    init_pair(4, COLOR_CYAN, COLOR_BLACK);
+
     std::string readBuffer = request();
     const char* json = readBuffer.c_str();
     Document document = parse(json);
@@ -58,13 +60,14 @@ int main ()
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
+        PANEL* key_panel = cell(issues[0]["key"].GetString(), 3, 15, 0, 2);
+        PANEL* key_panels[3];
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
-        cell(issue["key"].GetString(), 3, 15, i*3, 2);
+        key_panels[i] = cell(issue["key"].GetString(), 3, 15, i*3, 2);
         cell(issue["fields"]["summary"].GetString(), 3, 181, i*3, 20);
-        //cell(issue["key"].GetString(), 3, 30, 1+i*3, 20);
-        //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
+        //set_panel_userptr(key_panel, summary_panel);
 
         //mvprintw(12 + i, 10, issue["key"].GetString());
         //for (SizeType j = 0; j < issue["fields"]["summary"].Size(); j++) {
@@ -73,14 +76,36 @@ int main ()
             //fields["summary"]
         //}
     }
+    
+    set_panel_userptr(key_panels[0], key_panels[1]);
+    set_panel_userptr(key_panels[1], key_panels[2]);
+    set_panel_userptr(key_panels[2], key_panels[0]);
 
+    attron(COLOR_PAIR(4));
+    //mvprintw(LINES − 2, 0, "Use tab to browse through the windows (F1 to Exit)");
+    attroff(COLOR_PAIR(4));
+        update_panels();
+        doupdate();
     refresh();
     //my_win = create_newwin(height, width, starty, startx);
     //mvwprintw(my_win, starty + 1, startx + 2, "hi there!");
     //wrefresh(my_win);
 
+    PANEL* top = key_panels[0];
+    WINDOW* topwin;
     while((ch = getch()) != KEY_F(10))
     {
+        switch(ch){
+            case 9 : 
+                top = (PANEL*)panel_userptr(top);
+                top_panel(top);
+                topwin = panel_window(top);
+                    mvwprintw(topwin, 1, 2, "WWW");
+                    wrefresh(topwin);
+                break;
+        }
+        update_panels();
+        doupdate();
         refresh();
         //destroy_win(my_win);
         //my_win = create_newwin(height, width, starty, startx);
@@ -156,7 +181,7 @@ std::string request()
 }
 
 
-void cell(const char* str, int l, int c, int y, int x)
+PANEL* cell(const char* str, int l, int c, int y, int x)
 {
     WINDOW *my_cell;
     PANEL *my_panel;
@@ -171,8 +196,11 @@ void cell(const char* str, int l, int c, int y, int x)
     wrefresh(my_cell);
     box(my_cell, 0, 0);
     my_panel = new_panel(my_cell);
+    //set_panel_userptr(my_panel, p);
 
     update_panels();
     doupdate();
+
+    return my_panel;
 }
 
