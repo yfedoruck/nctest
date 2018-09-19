@@ -104,12 +104,17 @@ int main ()
                     attron(COLOR_PAIR(1));
                     mvwprintw(topwin, 1, 2, "WWW11");
                     attroff(COLOR_PAIR(1));
-                    topch = wgetch(topwin);
-                    if(topch == 10){
-                        mvwprintw(topwin, 1, 2, "OOOO");
-                    }
-                    //while(topch!= KEY_F(2)){
+                    //topch = wgetch(topwin);
+                    //if(topch == 10){
+                        //mvwprintw(topwin, 1, 2, "OOOO");
                     //}
+                    while((topch = wgetch(topwin)) != 9) {
+                        switch(topch){
+                            case 10 :
+                                mvwprintw(topwin, 1, 2, "OOOO");
+                                break;
+                        }
+                    }
                 break;
         }
         update_panels();
