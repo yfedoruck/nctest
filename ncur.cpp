@@ -54,19 +54,15 @@ int main ()
     Document document = parse(json);
     const Value& issues = document["issues"];
 
-    //cell("asd!!!");
-    //const Value &issue = issues[0];
-    //cell(issue["key"].GetString(), 1, 2);
-
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
-        //cell(issue["key"].GetString(), 3, 15, 1 + i * 3, 2);
-        //cell(issue["fields"]["summary"].GetString(), 3, 30, 1+i*3, 20);
-        cell(issue["key"].GetString(), 3, 30, 1+i*3, 20);
+        cell(issue["key"].GetString(), 3, 15, 1 + i * 3, 2);
+        cell(issue["fields"]["summary"].GetString(), 3, 30, 1+i*3, 20);
+        //cell(issue["key"].GetString(), 3, 30, 1+i*3, 20);
         //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
         //mvprintw(12 + i, 10, issue["key"].GetString());
@@ -75,7 +71,6 @@ int main ()
             //mvprintw(12 + i, 10, fields[j].GetString());
             //fields["summary"]
         //}
-
     }
 
     refresh();
@@ -159,36 +154,6 @@ std::string request()
     return readBuffer;
 }
 
-void panels()
-{
-    int count = 1;
-    WINDOW *my_wins[count];
-    PANEL *my_panels[count];
-    int lines = 10,
-        cols = 40,
-        y = 2,
-        x = 4,
-        i;
-    my_wins[0] = newwin(lines, cols, y, x);
-
-    mvwprintw(my_wins[0], y, x, "%s", "hi there!");
-    wrefresh(my_wins[0]);
-
-    //my_wins[1] = newwin(lines, cols, y + 1, x + 5);
-    //my_wins[2] = newwin(lines, cols, y + 2, x + 10);
-
-        box(my_wins[0], 0, 0);
-    //for(i = 0; i < 3; ++i){
-        //box(my_wins[i], 0, 0);
-    //}
-
-    my_panels[0] = new_panel(my_wins[0]);
-    //my_panels[1] = new_panel(my_wins[1]);
-    //my_panels[2] = new_panel(my_wins[2]);
-
-    update_panels();
-    doupdate();
-}
 
 void cell(const char* str, int l, int c, int y, int x)
 {
@@ -201,7 +166,7 @@ void cell(const char* str, int l, int c, int y, int x)
         i;
     my_cell = newwin(lines, cols, y, x);
 
-    mvwprintw(my_cell, yRel, xRel, str);
+    //mvwprintw(my_cell, yRel, xRel, str);
     wrefresh(my_cell);
     box(my_cell, 0, 0);
     my_panel = new_panel(my_cell);
