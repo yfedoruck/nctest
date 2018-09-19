@@ -166,7 +166,7 @@ void cell(const char* str, int l, int c, int y, int x)
         i;
     my_cell = newwin(lines, cols, y, x);
 
-    //mvwprintw(my_cell, yRel, xRel, str);
+    mvwprintw(my_cell, yRel, xRel, str);
     wrefresh(my_cell);
     box(my_cell, 0, 0);
     my_panel = new_panel(my_cell);
