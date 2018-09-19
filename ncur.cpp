@@ -60,8 +60,8 @@ int main ()
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
-        cell(issue["key"].GetString(), 3, 15, 1 + i * 3, 2);
-        cell(issue["fields"]["summary"].GetString(), 3, 30, 1+i*3, 20);
+        cell(issue["key"].GetString(), 3, 15, i*3, 2);
+        cell(issue["fields"]["summary"].GetString(), 3, 30, i*3, 20);
         //cell(issue["key"].GetString(), 3, 30, 1+i*3, 20);
         //mvprintw(12 + 2*i + 1, 10, issue["fields"]["summary"].GetString());
 
