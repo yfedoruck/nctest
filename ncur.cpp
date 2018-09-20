@@ -92,7 +92,7 @@ int main ()
     //wrefresh(my_win);
 
     PANEL* top = key_panels[0];
-    PANEL* top_bkp = top;
+    PANEL* top_bkp = key_panels[0];
     top_panel(top);
 
     WINDOW* topwin = panel_window(top);
@@ -100,8 +100,8 @@ int main ()
         doupdate();
     int topch;
     int ch1;
-    WINDOW* issue_win = newwin(30, 150, 0, 2);
-    PANEL* issue_panel = new_panel(issue_win);
+    WINDOW* issue_win;
+    PANEL* issue_panel;
     while((ch = getch()) != KEY_F(10))
     {
         //topch = wgetch(topwin);
@@ -110,7 +110,7 @@ int main ()
                 top = (PANEL*)panel_userptr(top);
                 top_bkp = top;
                 top_panel(top);
-                topwin = panel_window(top);
+                //topwin = panel_window(top);
                     //attron(COLOR_PAIR(1));
                     //mvwprintw(topwin, 1, 2, "WWW11");
                     //attroff(COLOR_PAIR(1));
@@ -118,17 +118,22 @@ int main ()
             case 10 :
                 //mvwprintw(topwin, 1, 2, "OOOO");
                 //hide_panel(top);
-                mvwprintw(issue_win, 1, 2, "hi there!!!!");
-                wrefresh(issue_win);
+                issue_win = newwin(30, 150, 0, 2);
+                issue_panel = new_panel(issue_win);
 
                 box(issue_win, 0, 0);
                 show_panel(issue_panel);
+
+                mvwprintw(issue_win, 1, 2, "hi there!!!!");
+                wrefresh(issue_win);
+
                 top_panel(issue_panel);
-                ch1 = getch();
-                if(ch1 == 'q'){
-                    hide_panel(issue_panel);
-                    top_panel(top_bkp);
+                while((ch1 = wgetch(issue_win)) != 'q'){
+                    wrefresh(issue_win);
                 }
+
+                //top_panel(top_bkp);
+                hide_panel(issue_panel);
                 break;
         }
         update_panels();
