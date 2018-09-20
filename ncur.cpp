@@ -99,6 +99,8 @@ int main ()
         update_panels();
         doupdate();
     int topch;
+    WINDOW* issue_win;
+    PANEL* issue_panel;
     while((ch = getch()) != KEY_F(10))
     {
         //topch = wgetch(topwin);
@@ -112,16 +114,23 @@ int main ()
                     //attroff(COLOR_PAIR(1));
                 break;
             case 10 :
-                mvwprintw(topwin, 1, 2, "OOOO");
+                //mvwprintw(topwin, 1, 2, "OOOO");
+                //hide_panel(top);
+                issue_win = subwin(topwin, 3, 15, 0, 2);
+                mvwprintw(issue_win, 1, 2, "hi there!!!!");
+                wrefresh(issue_win);
+
+                box(issue_win, 0, 0);
+                issue_panel = new_panel(issue_win);
+                top_panel(issue_panel);
                 break;
         }
         update_panels();
         doupdate();
     }
 
+    delwin(issue_win);
     endwin();
-
-    return 0;
 }
 WINDOW *create_newwin(int height, int width, int starty, int startx)
 {
