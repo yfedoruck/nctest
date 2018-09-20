@@ -129,7 +129,7 @@ int main ()
 
                 top_panel(issue_panel);
                 while((ch1 = wgetch(issue_win)) != 'q'){
-                    wrefresh(issue_win);
+                    //...wait
                 }
 
                 //top_panel(top_bkp);
