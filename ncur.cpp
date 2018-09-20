@@ -92,10 +92,9 @@ int main ()
     //wrefresh(my_win);
 
     PANEL* top = key_panels[0];
-    WINDOW* topwin;
-
     top_panel(top);
-    topwin = panel_window(top);
+
+    WINDOW* topwin = panel_window(top);
         update_panels();
         doupdate();
     int topch;
