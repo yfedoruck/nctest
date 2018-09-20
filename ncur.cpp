@@ -99,8 +99,9 @@ int main ()
         update_panels();
         doupdate();
     int topch;
-    WINDOW* issue_win;
-    PANEL* issue_panel;
+    int ch1;
+    WINDOW* issue_win = newwin(30, 150, 0, 2);
+    PANEL* issue_panel = new_panel(issue_win);
     while((ch = getch()) != KEY_F(10))
     {
         //topch = wgetch(topwin);
@@ -117,25 +118,25 @@ int main ()
             case 10 :
                 //mvwprintw(topwin, 1, 2, "OOOO");
                 //hide_panel(top);
-                issue_win = newwin(30, 150, 0, 2);
                 mvwprintw(issue_win, 1, 2, "hi there!!!!");
                 wrefresh(issue_win);
 
                 box(issue_win, 0, 0);
-                issue_panel = new_panel(issue_win);
+                show_panel(issue_panel);
                 top_panel(issue_panel);
-                break;
-            case 'q' :
-                hide_panel(issue_panel);
-                top_panel(top_bkp);
+                ch1 = getch();
+                if(ch1 == 'q'){
+                    hide_panel(issue_panel);
+                    top_panel(top_bkp);
+                }
                 break;
         }
         update_panels();
         doupdate();
     }
 
-    delwin(issue_win);
-    del_panel(issue_panel);
+    //delwin(issue_win);
+    //del_panel(issue_panel);
     endwin();
 }
 WINDOW *create_newwin(int height, int width, int starty, int startx)
