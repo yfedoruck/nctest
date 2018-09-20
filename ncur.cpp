@@ -93,28 +93,26 @@ int main ()
 
     PANEL* top = key_panels[0];
     WINDOW* topwin;
+
+    top_panel(top);
+    topwin = panel_window(top);
+        update_panels();
+        doupdate();
     int topch;
     while((ch = getch()) != KEY_F(10))
     {
+        //topch = wgetch(topwin);
         switch(ch){
             case 9 :
                 top = (PANEL*)panel_userptr(top);
                 top_panel(top);
                 topwin = panel_window(top);
-                    attron(COLOR_PAIR(1));
-                    mvwprintw(topwin, 1, 2, "WWW11");
-                    attroff(COLOR_PAIR(1));
-                    //topch = wgetch(topwin);
-                    //if(topch == 10){
-                        //mvwprintw(topwin, 1, 2, "OOOO");
-                    //}
-                    while((topch = wgetch(topwin)) != 9) {
-                        switch(topch){
-                            case 10 :
-                                mvwprintw(topwin, 1, 2, "OOOO");
-                                break;
-                        }
-                    }
+                    //attron(COLOR_PAIR(1));
+                    //mvwprintw(topwin, 1, 2, "WWW11");
+                    //attroff(COLOR_PAIR(1));
+                break;
+            case 10 :
+                mvwprintw(topwin, 1, 2, "OOOO");
                 break;
         }
         update_panels();
