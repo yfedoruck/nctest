@@ -124,7 +124,7 @@ int main ()
                 box(issue_win, 0, 0);
                 show_panel(issue_panel);
 
-                mvwprintw(issue_win, 1, 2, "hi there!!!!");
+                mvwprintw(issue_win, 1, 2, issues[0]["fields"]["description"].GetString());
                 wrefresh(issue_win);
 
                 top_panel(issue_panel);
