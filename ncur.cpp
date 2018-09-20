@@ -92,6 +92,7 @@ int main ()
     //wrefresh(my_win);
 
     PANEL* top = key_panels[0];
+    PANEL* top_bkp = top;
     top_panel(top);
 
     WINDOW* topwin = panel_window(top);
@@ -106,6 +107,7 @@ int main ()
         switch(ch){
             case 9 :
                 top = (PANEL*)panel_userptr(top);
+                top_bkp = top;
                 top_panel(top);
                 topwin = panel_window(top);
                     //attron(COLOR_PAIR(1));
@@ -115,7 +117,7 @@ int main ()
             case 10 :
                 //mvwprintw(topwin, 1, 2, "OOOO");
                 //hide_panel(top);
-                issue_win = subwin(topwin, 3, 15, 0, 2);
+                issue_win = newwin(30, 150, 0, 2);
                 mvwprintw(issue_win, 1, 2, "hi there!!!!");
                 wrefresh(issue_win);
 
@@ -123,12 +125,17 @@ int main ()
                 issue_panel = new_panel(issue_win);
                 top_panel(issue_panel);
                 break;
+            case 'q' :
+                hide_panel(issue_panel);
+                top_panel(top_bkp);
+                break;
         }
         update_panels();
         doupdate();
     }
 
     delwin(issue_win);
+    del_panel(issue_panel);
     endwin();
 }
 WINDOW *create_newwin(int height, int width, int starty, int startx)
