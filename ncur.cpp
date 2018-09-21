@@ -10,6 +10,7 @@
 #include <curl/curl.h>
 #include <stdio.h>
 #include <string>
+#include <sstream>
 
 //jira board backlog -b 183 -a y.fedoruk
 //curl -X GET  -k 'https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk'   -H 'Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr'   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'
@@ -21,6 +22,9 @@ using namespace std;
 WINDOW *create_newwin(int height, int width, int starty, int startx);
 void destroy_win(WINDOW *local_win);
 std::string request();
+std::string wrap(std::string text, size_t line_length = 72);
+std::string textWrap(std::string str, int location);
+
 Document parse(const char* str);
 void panels();
 PANEL* cell(const char* s, int l, int c, int y, int x);
@@ -102,6 +106,8 @@ int main ()
     int ch1;
     WINDOW* issue_win;
     PANEL* issue_panel;
+    //const char* description;
+    std::string description;
     while((ch = getch()) != KEY_F(10))
     {
         //topch = wgetch(topwin);
@@ -118,13 +124,19 @@ int main ()
             case 10 :
                 //mvwprintw(topwin, 1, 2, "OOOO");
                 //hide_panel(top);
-                issue_win = newwin(30, 150, 0, 2);
+                issue_win = newwin(30, 45, 0, 0);
+                //issue_win = newpad(30, 150);
                 issue_panel = new_panel(issue_win);
 
                 box(issue_win, 0, 0);
-                show_panel(issue_panel);
+                //show_panel(issue_panel);
 
-                mvwprintw(issue_win, 1, 2, issues[0]["fields"]["description"].GetString());
+                description = issues[0]["fields"]["description"].GetString();
+                //description = textWrap(description, 50);
+                //description = wrap(description, 90);
+                description = "sdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+                mvwprintw(issue_win, 1, 4, description.c_str());
+                //prefresh(issue_win, 0,0, 2,2, 130, 150);
                 wrefresh(issue_win);
 
                 top_panel(issue_panel);
@@ -140,8 +152,8 @@ int main ()
         doupdate();
     }
 
-    //delwin(issue_win);
-    //del_panel(issue_panel);
+    delwin(issue_win);
+    del_panel(issue_panel);
     endwin();
 }
 WINDOW *create_newwin(int height, int width, int starty, int startx)
@@ -206,6 +218,36 @@ std::string request()
     return readBuffer;
 }
 
+std::string wrap(std::string text, size_t line_length)
+{
+    std::istringstream words(text);
+    std::ostringstream wrapped;
+    std::string word;
+ 
+    if (words >> word) {
+        wrapped << word;
+        size_t space_left = line_length - word.length();
+        while (words >> word) {
+            if (space_left < word.length() + 1) {
+                wrapped << '\n' << word;
+                space_left = line_length - word.length();
+            } else {
+                wrapped << ' ' << word;
+                space_left -= word.length() + 1;
+            }
+        }
+    }
+    return wrapped.str();
+}
+
+std::string textWrap(std::string str, int location) {
+    int n = str.rfind(' ', location);
+    if (n != std::string::npos) {
+        str.at(n) = '\n';
+    }
+
+    return str;
+}
 
 PANEL* cell(const char* str, int l, int c, int y, int x)
 {
