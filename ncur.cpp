@@ -108,7 +108,8 @@ int main ()
     PANEL* issue_panel;
     //const char* description;
     std::string description;
-    while((ch = getch()) != KEY_F(10))
+    int row, col;
+    while((ch = getch()) != 'q')
     {
         //topch = wgetch(topwin);
         switch(ch){
@@ -124,7 +125,8 @@ int main ()
             case 10 :
                 //mvwprintw(topwin, 1, 2, "OOOO");
                 //hide_panel(top);
-                issue_win = newwin(30, 45, 0, 0);
+                issue_win = newwin(50, 165, 0, 0);
+                getmaxyx(issue_win, row, col);
                 //issue_win = newpad(30, 150);
                 issue_panel = new_panel(issue_win);
 
@@ -133,9 +135,10 @@ int main ()
 
                 description = issues[0]["fields"]["description"].GetString();
                 //description = textWrap(description, 50);
-                //description = wrap(description, 90);
-                description = "sdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-                mvwprintw(issue_win, 1, 4, description.c_str());
+                description = wrap(description, 90);
+                //description = "sdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+                //mvwprintw(issue_win, 1, 4, description.c_str());
+                mvwprintw(issue_win, 1, 1, "%s", description.c_str());
                 //prefresh(issue_win, 0,0, 2,2, 130, 150);
                 wrefresh(issue_win);
 
