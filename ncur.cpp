@@ -130,17 +130,17 @@ int main ()
                 //issue_win = newpad(30, 150);
                 issue_panel = new_panel(issue_win);
 
-                box(issue_win, 0, 0);
                 //show_panel(issue_panel);
 
+                //description = "AAsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffQQ\n123456";
                 description = issues[0]["fields"]["description"].GetString();
                 //description = textWrap(description, 50);
                 description = wrap(description, 90);
-                //description = "sdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-                //mvwprintw(issue_win, 1, 4, description.c_str());
-                mvwprintw(issue_win, 1, 1, "%s", description.c_str());
-                //prefresh(issue_win, 0,0, 2,2, 130, 150);
+                mvwprintw(issue_win, 1, 1, description.c_str());
+                box(issue_win, 0, 0);
                 wrefresh(issue_win);
+                //mvwprintw(issue_win, 1, 4, description.c_str());
+                //prefresh(issue_win, 0,0, 2,2, 130, 150);
 
                 top_panel(issue_panel);
                 while((ch1 = wgetch(issue_win)) != 'q'){
@@ -232,7 +232,7 @@ std::string wrap(std::string text, size_t line_length)
         size_t space_left = line_length - word.length();
         while (words >> word) {
             if (space_left < word.length() + 1) {
-                wrapped << '\n' << word;
+                wrapped << '\n' << ' ' << word;
                 space_left = line_length - word.length();
             } else {
                 wrapped << ' ' << word;
