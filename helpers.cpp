@@ -1,3 +1,4 @@
+// wrap words by some length
 std::string wrap(const char* text, size_t line_length)
 {
     std::istringstream words(text);
@@ -20,6 +21,7 @@ std::string wrap(const char* text, size_t line_length)
     return wrapped.str();
 }
 
+// explode string by delimiter
 std::vector<std::string> explode(std::string const & s, char delim)
 {
     std::vector<std::string> result;
