@@ -105,7 +105,6 @@ int main ()
     //wrefresh(my_win);
 
     PANEL* top = cells[0].panel;
-    PANEL* top_bkp = cells[0].panel;
     top_panel(top);
 
     WINDOW* topwin = panel_window(top);
@@ -124,7 +123,6 @@ int main ()
         switch(ch){
             case 9 :
                 top = (PANEL*)panel_userptr(top);
-                top_bkp = top;
                 top_panel(top);
                 //topwin = panel_window(top);
                     //attron(COLOR_PAIR(1));
@@ -156,7 +154,6 @@ int main ()
                     //...wait
                 }
 
-                //top_panel(top_bkp);
                 hide_panel(issue_panel);
                 break;
         }
