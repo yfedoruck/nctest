@@ -36,6 +36,12 @@ static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *use
     return size * nmemb;
 }
 
+typedef struct 
+{
+    PANEL* panel;
+    std::string content;
+} Cell;
+
 int main ()
 {
     setlocale(LC_ALL, "");
@@ -67,11 +73,13 @@ int main ()
     //Value::MemberIterator issues = d["issues"];
 
         PANEL* key_panel = cell(issues[0]["key"].GetString(), 3, 15, 0, 2);
-        PANEL* key_panels[3];
+        //PANEL* key_panels[3];
+        Cell cells[3];
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
-        key_panels[i] = cell(issue["key"].GetString(), 3, 15, i*3, 2);
+        cells[i].panel = cell(issue["key"].GetString(), 3, 15, i*3, 2);
+        cells[i].content = issue["key"].GetString();
                     attron(COLOR_PAIR(1));
         cell(issue["fields"]["summary"].GetString(), 3, 181, i*3, 20);
                     attroff(COLOR_PAIR(1));
@@ -85,9 +93,9 @@ int main ()
         //}
     }
 
-    set_panel_userptr(key_panels[0], key_panels[1]);
-    set_panel_userptr(key_panels[1], key_panels[2]);
-    set_panel_userptr(key_panels[2], key_panels[0]);
+    set_panel_userptr(cells[0].panel, cells[1].panel);
+    set_panel_userptr(cells[1].panel, cells[2].panel);
+    set_panel_userptr(cells[2].panel, cells[0].panel);
 
         update_panels();
         doupdate();
@@ -96,8 +104,8 @@ int main ()
     //mvwprintw(my_win, starty + 1, startx + 2, "hi there!");
     //wrefresh(my_win);
 
-    PANEL* top = key_panels[0];
-    PANEL* top_bkp = key_panels[0];
+    PANEL* top = cells[0].panel;
+    PANEL* top_bkp = cells[0].panel;
     top_panel(top);
 
     WINDOW* topwin = panel_window(top);
