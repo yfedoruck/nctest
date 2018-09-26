@@ -93,9 +93,9 @@ int main ()
         //}
     }
 
-    set_panel_userptr(cells[0].panel, cells[1].panel);
-    set_panel_userptr(cells[1].panel, cells[2].panel);
-    set_panel_userptr(cells[2].panel, cells[0].panel);
+    set_panel_userptr(cells[0].panel, &cells[1]);
+    set_panel_userptr(cells[1].panel, &cells[2]);
+    set_panel_userptr(cells[2].panel, &cells[0]);
 
         update_panels();
         doupdate();
@@ -104,10 +104,10 @@ int main ()
     //mvwprintw(my_win, starty + 1, startx + 2, "hi there!");
     //wrefresh(my_win);
 
-    PANEL* top = cells[0].panel;
-    top_panel(top);
+    Cell* top = &cells[0];
+    top_panel(top->panel);
 
-    WINDOW* topwin = panel_window(top);
+    WINDOW* topwin = panel_window(top->panel);
         update_panels();
         doupdate();
     int topch;
@@ -122,8 +122,8 @@ int main ()
         //topch = wgetch(topwin);
         switch(ch){
             case 9 :
-                top = (PANEL*)panel_userptr(top);
-                top_panel(top);
+                top = (Cell*)panel_userptr(top->panel);
+                top_panel(top->panel);
                 //topwin = panel_window(top);
                     //attron(COLOR_PAIR(1));
                     //mvwprintw(topwin, 1, 2, "WWW11");
