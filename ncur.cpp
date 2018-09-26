@@ -79,7 +79,7 @@ int main ()
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
         cells[i].panel = cell(issue["key"].GetString(), 3, 15, i*3, 2);
-        cells[i].content = issue["key"].GetString();
+        cells[i].content = issue["fields"]["description"].GetString();
                     attron(COLOR_PAIR(1));
         cell(issue["fields"]["summary"].GetString(), 3, 181, i*3, 20);
                     attroff(COLOR_PAIR(1));
@@ -140,7 +140,8 @@ int main ()
                 //show_panel(issue_panel);
 
                 //description = "AAsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffQQ\n123456";
-                description = issues[0]["fields"]["description"].GetString();
+                //description = issues[0]["fields"]["description"].GetString();
+                description = top->content;
                 //auto desc = explode(description, ' ');
                 description = wrap(description, 90);
                 mvwprintw(issue_win, 1, 1, description.c_str());
