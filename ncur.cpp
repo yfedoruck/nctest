@@ -6,7 +6,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
-#include "include/helpers.h"
+#include "helpers.h"
 #include <iostream>
 #include <curl/curl.h>
 #include <stdio.h>
@@ -107,7 +107,7 @@ int main ()
     int ch1;
     WINDOW* issue_win;
     PANEL* issue_panel;
-    const char* description;
+    std::string description;
     //std::string description;
     int row, col;
     while((ch = getch()) != 'q')
@@ -135,8 +135,8 @@ int main ()
 
                 //description = "AAsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffQQ\n123456";
                 description = issues[0]["fields"]["description"].GetString();
-                auto desc = explode(description, ' ');
-                description = wrap(desc, 90);
+                //auto desc = explode(description, ' ');
+                description = wrap(description, 90);
                 mvwprintw(issue_win, 1, 1, description.c_str());
                 box(issue_win, 0, 0);
                 wrefresh(issue_win);

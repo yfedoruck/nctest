@@ -1,5 +1,10 @@
+#include <string>
+#include <sstream>
+#include <vector>
+
+using namespace std;
 // wrap words by some length
-std::string wrap(const char* text, size_t line_length)
+std::string wrap(std::string text, size_t line_length)
 {
     std::istringstream words(text);
     std::ostringstream wrapped;
@@ -35,3 +40,10 @@ std::vector<std::string> explode(std::string const & s, char delim)
     return result;
 }
 
+
+//char *convert(const std::string & s)
+//{
+   //char *pc = new char[s.size()+1];
+   //std::strcpy(pc, s.c_str());
+  //return pc; 
+//}
