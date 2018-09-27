@@ -14,6 +14,7 @@ std::string wrap(std::string text, size_t line_length)
         wrapped << word;
         size_t space_left = line_length - word.length();
         while (words >> word) {
+        //while (std::getline(words, word, '\n')) {
             if (space_left < word.length() + 1) {
                 wrapped << '\n' << ' ' << word;
                 space_left = line_length - word.length();
