@@ -74,7 +74,7 @@ int main ()
 
         PANEL* key_panel = cell(issues[0]["key"].GetString(), 3, 15, 0, 2);
         //PANEL* key_panels[3];
-        Cell cells[3];
+        Cell cells[issues.Size()];
     // ++++++++++++++++++ PARSE DOM
     for (SizeType i = 0; i < issues.Size(); i++) {
         const Value &issue = issues[i];
@@ -93,9 +93,16 @@ int main ()
         //}
     }
 
-    set_panel_userptr(cells[0].panel, &cells[1]);
-    set_panel_userptr(cells[1].panel, &cells[2]);
-    set_panel_userptr(cells[2].panel, &cells[0]);
+    if(issues.Size() > 0){
+        for (SizeType i = 0; i < (issues.Size()-1); i++) {
+            set_panel_userptr(cells[i].panel, &cells[i+1]);
+        }
+        set_panel_userptr(cells[issues.Size()-1].panel, &cells[0]);
+    }
+
+    //set_panel_userptr(cells[0].panel, &cells[1]);
+    //set_panel_userptr(cells[1].panel, &cells[2]);
+    //set_panel_userptr(cells[2].panel, &cells[0]);
 
         update_panels();
         doupdate();
