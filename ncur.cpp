@@ -69,6 +69,12 @@ int main ()
     Document document = parse(json);
     const Value& issues = document["issues"];
 
+
+    if(issues.Size() == 0){
+        endwin();
+        return 0;
+    }
+
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
