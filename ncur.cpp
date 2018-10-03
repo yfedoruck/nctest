@@ -45,7 +45,7 @@ typedef struct
 int main ()
 {
     setlocale(LC_ALL, "");
-    WINDOW *my_win;
+    //WINDOW *my_win;
 
     initscr();
     start_color();
@@ -53,12 +53,12 @@ int main ()
     noecho();
     keypad(stdscr, TRUE);
 
-    int height = 10;
-    int width = 40;
+    //int height = 10;
+    //int width = 40;
     //int starty = (LINES - height);
     //int startx = (COLS - width)/2;
-    int starty = 0; //(LINES - height);
-    int startx = 0;
+    //int starty = 0; //(LINES - height);
+    //int startx = 0;
     int ch;
 
     init_pair(1, COLOR_RED, COLOR_YELLOW);
@@ -72,7 +72,7 @@ int main ()
     //std::string str = "test";    //mvprintw(10, 10, str.c_str());
     //Value::MemberIterator issues = d["issues"];
 
-        PANEL* key_panel = cell(issues[0]["key"].GetString(), 3, 15, 0, 2);
+        //PANEL* key_panel = cell(issues[0]["key"].GetString(), 3, 15, 0, 2);
         //PANEL* key_panels[3];
         Cell cells[issues.Size()];
     // ++++++++++++++++++ PARSE DOM
@@ -114,10 +114,10 @@ int main ()
     Cell* top = &cells[0];
     top_panel(top->panel);
 
-    WINDOW* topwin = panel_window(top->panel);
+    //WINDOW* topwin = panel_window(top->panel);
         update_panels();
         doupdate();
-    int topch;
+    //int topch;
     int ch1;
     WINDOW* issue_win;
     PANEL* issue_panel;
@@ -242,8 +242,8 @@ PANEL* cell(const char* str, int l, int c, int y, int x)
     int lines = l,
         cols = c,
         yRel = 1,
-        xRel = 2,
-        i;
+        xRel = 2
+        ;
     my_cell = newwin(lines, cols, y, x);
 
     mvwprintw(my_cell, yRel, xRel, str);
