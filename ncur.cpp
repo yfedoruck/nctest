@@ -6,6 +6,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/writer.h"
 #include "rapidjson/stringbuffer.h"
+#include <rapidjson/error/en.h>
 #include "helpers.h"
 #include <iostream>
 #include <curl/curl.h>
@@ -14,6 +15,7 @@
 #include <sstream>
 #include <vector>
 #include <utility>
+#include <typeinfo>
 
 //jira board backlog -b 183 -a y.fedoruk
 //curl -X GET  -k 'https://jira.favorit/rest/agile/1.0/board/183/backlog?jql=assignee=y.fedoruk'   -H 'Authorization: Basic eS5mZWRvcnVrOkE4eWZlZG9ydWNr'   -H 'Cache-Control: no-cache'   -H 'Content-Type: application/json'
@@ -67,11 +69,18 @@ int main ()
     std::string readBuffer = request();
     const char* json = readBuffer.c_str();
     Document document = parse(json);
+
+    //endwin();
+    //std::cout << typeid(document).name() << std::endl;
+    //exit(0);
+
+
     const Value& issues = document["issues"];
 
 
     if(issues.Size() == 0){
         endwin();
+        cout << "no issues" << endl;
         return 0;
     }
 
@@ -208,7 +217,17 @@ Document parse(const char* str)
 
     const char* json = str;
     Document document;
-    document.Parse(json);
+    Document documentEmpty;
+
+    //json = "sdf";
+
+    rapidjson::ParseErrorCode ok = document.Parse(json).GetParseError();
+    if(ok != rapidjson::kParseErrorNone){
+        endwin();
+        printf( "JSON parse error: %s \n", GetParseError_En(ok) );
+        exit(EXIT_FAILURE);
+        //return documentEmpty;
+    }
 
     return document;
 }
